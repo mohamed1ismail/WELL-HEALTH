@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WELL HEALTH | ويل هيلث</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Playfair+Display:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme:{
+      extend:{
+        colors:{
+          "surface-bright":"#fbf9f6","on-background":"#1b1c1a","surface-dim":"#dbdad7",
+          "inverse-primary":"#95d4b3","surface-container-lowest":"#ffffff","error":"#ba1a1a",
+          "surface-container":"#efeeeb","on-tertiary":"#ffffff","outline-variant":"#bfc9c1",
+          "nutri-fats":"#BC6C25","on-surface-variant":"#404943","background":"#fbf9f6",
+          "outline":"#707973","on-surface":"#1b1c1a","secondary":"#4CAF50",
+          "inverse-surface":"#30312f","surface-variant":"#e4e2df",
+          "on-primary-fixed-variant":"#0e5138","surface":"#fbf9f6",
+          "secondary-container":"#cde6d1","primary":"#4CAF50","on-error":"#ffffff",
+          "on-primary":"#ffffff","on-secondary":"#ffffff","nutri-protein":"#4CAF50",
+          "surface-container-high":"#eae8e5","primary-container":"#4CAF50",
+          "error-container":"#ffdad6","on-primary-container":"#003c0b",
+          "surface-container-highest":"#e4e2df","surface-container-low":"#f5f3f0",
+          "surface-tint":"#4CAF50","nutri-calories":"#4CAF50","on-primary-fixed":"#002204",
+          "nutri-carbs":"#A4AC86"
+        },
+        borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},
+        fontFamily:{
+          "headline-md":["Playfair Display"],"body-lg":["Cairo"],"body-md":["Cairo"],
+          "arabic-headline":["Cairo"],"title-lg":["Cairo"],"label-caps":["Cairo"],
+          "display-lg":["Playfair Display"],"display-lg-mobile":["Playfair Display"]
+        },
+        fontSize:{
+          "headline-md":["32px",{"lineHeight":"1.3","fontWeight":"600"}],
+          "body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+          "headline-md-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+          "arabic-headline":["28px",{"lineHeight":"1.4","fontWeight":"700"}],
+          "title-lg":["20px",{"lineHeight":"1.4","fontWeight":"700"}],
+          "body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],
+          "display-lg-mobile":["32px",{"lineHeight":"1.2","fontWeight":"700"}],
+          "display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],
+          "label-caps":["12px",{"lineHeight":"1","letterSpacing":"0.1em","fontWeight":"700"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  [dir="rtl"] .font-headline-md{font-family:'Cairo',sans-serif;font-weight:700}
+  [dir="rtl"] .font-body-md{font-family:'Cairo',sans-serif}
+  .glass-nav{background:rgba(251,249,246,0.92);backdrop-filter:blur(12px)}
+  .lang-en,.lang-ar{transition:opacity 0.2s ease}
+  body[dir="rtl"] .lang-en{display:none !important}
+  body[dir="ltr"] .lang-ar{display:none !important}
+  body[dir="rtl"]{font-family:'Cairo',sans-serif}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+  /* Main nav tabs */
+  .main-tab-btn{transition:all 0.25s ease;border:2px solid #4CAF50;border-radius:9999px;padding:8px 18px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .main-tab-btn.active{background:#4CAF50;color:#fff}
+  .main-tab-btn:not(.active){background:transparent;color:#4CAF50}
+  /* Category filter */
+  .cat-filter-btn{transition:all 0.2s ease;border:2px solid #e0e0e0;border-radius:9999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+  .cat-filter-btn.active{border-color:#4CAF50;background:rgba(76,175,80,0.1);color:#4CAF50}
+  .cat-filter-btn:not(.active){background:#fff;color:#404943}
+  /* Item list row */
+  .item-row{transition:all 0.25s ease;cursor:pointer;border-radius:16px;background:#fff;border:1px solid #eae8e5}
+  .item-row:hover{box-shadow:0 8px 24px rgba(0,0,0,0.08);transform:translateY(-2px)}
+  /* Macro pill */
+  .macro-pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:700}
+  /* Health tip card */
+  .tip-card{background:#fff;border:1px solid #eae8e5;border-radius:16px;padding:20px;transition:all 0.2s ease}
+  .tip-card:hover{box-shadow:0 6px 20px rgba(76,175,80,0.12);border-color:#4CAF50}
+  /* About social card */
+  .social-contact-card{background:#fff;border:1px solid #eae8e5;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;transition:all 0.2s ease}
+  .social-contact-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+  /* Rating modal */
+  #rating-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.45);align-items:center;justify-content:center}
+  #rating-modal.open{display:flex}
+  .star-btn{font-size:36px;cursor:pointer;transition:transform 0.15s ease,color 0.15s ease;color:#ddd;background:none;border:none;padding:4px}
+  .star-btn.lit{color:#F4C430}
+  .star-btn:hover{transform:scale(1.2)}
+  /* App promo */
+  .app-promo{background:linear-gradient(135deg,#388E3C 0%,#4CAF50 50%,#66BB6A 100%)}
+  /* Scroll reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body class="bg-surface text-on-background min-h-screen" dir="ltr">
+<script>
+  (function(){
+    const lang=localStorage.getItem('lang')||'en';
+    if(lang==='ar'){document.body.setAttribute('dir','rtl');document.documentElement.setAttribute('lang','ar')}
+  })();
+</script>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="fixed top-0 left-0 right-0 w-full z-50 glass-nav shadow-sm">
+  <div class="flex justify-between items-center px-6 py-4 max-w-[1200px] mx-auto">
+    <div class="flex items-center gap-6">
+      <span class="text-title-lg font-bold text-primary tracking-tight" style="font-family:'Cairo',sans-serif">
+        <span class="lang-en">WELL HEALTH</span>
+        <span class="lang-ar">ويل هيلث</span>
+      </span>
+      <div class="hidden md:flex gap-4">
+        <a class="text-primary font-bold border-b-2 border-primary text-xs py-1" href="index.html">
+          <span class="lang-en">Menu</span><span class="lang-ar">القائمة</span>
+        </a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-xs py-1" href="services.html">
+          <span class="lang-en">Services</span><span class="lang-ar">الخدمات</span>
+        </a>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="bg-primary text-white px-4 py-1.5 rounded-full text-xs font-bold hover:opacity-90 transition-all active:scale-95" onclick="toggleLanguage()">
+        <span id="lang-text">AR</span>
+      </button>
+      <a href="login.html" class="text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">account_circle</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="relative w-full h-[60vh] md:h-[70vh] flex flex-col items-center">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
+         style="background-image:url('DSC09755.jpg')">
+    </div>
+  </div>
+  <div class="relative mt-auto translate-y-1/2 z-10">
+    <div class="w-32 h-32 md:w-40 md:h-40 overflow-hidden">
+      <img alt="WELL HEALTH Logo" class="w-full h-full object-contain"
+           src="logo_new.png"/>
+    </div>
+  </div>
+</header>
+
+<!-- ===== BRANDING & SOCIAL ===== -->
+<section class="mt-24 text-center px-4 md:px-12">
+  <div class="flex flex-col items-center gap-3" id="brand-content">
+    <h1 class="text-primary font-bold text-[32px] md:text-[48px] tracking-tight lang-en" style="font-family:'Playfair Display',serif">WELL HEALTH</h1>
+    <h1 class="text-primary font-bold text-[32px] md:text-[48px] lang-ar" style="font-family:'Cairo',sans-serif">ويل هيلث</h1>
+    <p class="text-on-surface-variant text-base max-w-xl mx-auto lang-en italic" style="font-family:'Playfair Display',serif">Eat Well. Live Well.</p>
+    <p class="text-on-surface-variant text-base max-w-xl mx-auto lang-ar">كُل صح. عِش صح.</p>
+  </div>
+  <!-- Social Row -->
+  <div class="flex justify-center flex-wrap gap-3 mt-6">
+    <a href="https://www.instagram.com/well.health_sa?igsh=MjBjMmU3NnpmNDFl" target="_blank" aria-label="إنستغرام"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-[#E1306C] hover:text-white hover:border-[#E1306C] transition-all duration-300">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@well_health_sa?_r=1&_t=ZS-96qJl7ta3Dk" target="_blank" aria-label="تيك توك"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-black hover:text-white hover:border-black transition-all duration-300">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9a8.27 8.27 0 004.84 1.55V7.12a4.85 4.85 0 01-1.07-.43z"/></svg>
+    </a>
+    <a href="https://www.snapchat.com/add/wellhealth.ksa?share_id=dYsubJC-m0w&locale=ar-SA-u-nu-arab" target="_blank" aria-label="سناب شات"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-[#FFFC00] hover:text-black hover:border-[#FFFC00] transition-all duration-300">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.333 4.225l-.005.044c-.036.64.17 1.084.685 1.406.485.297 1.009.435 1.447.573.126.04.243.077.342.115.851.302 1.314.7 1.23 1.28a.482.482 0 01-.439.401c-.65.084-1.079.31-1.45.685-.135.138-.264.303-.404.484-.413.533-.927 1.198-2.048 1.198-.28 0-.569-.055-.862-.11-.383-.075-.776-.151-1.19-.015-.47.152-.93.512-1.41.887-.71.554-1.512 1.183-2.705 1.183h-.048c-1.193 0-1.994-.629-2.706-1.183-.479-.375-.94-.735-1.41-.887-.413-.136-.806-.06-1.19.015-.292.055-.582.11-.862.11-1.12 0-1.634-.665-2.047-1.198-.14-.181-.269-.346-.404-.484-.37-.375-.8-.601-1.45-.685a.482.482 0 01-.44-.4c-.083-.58.38-.978 1.23-1.28.1-.04.217-.076.342-.115.439-.138.962-.276 1.447-.573.515-.322.721-.767.685-1.406l-.005-.044c-.07-1.006-.196-3.032.333-4.225C7.859 1.069 11.216.793 12.206.793z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1GHaPj3Cqr/" target="_blank" aria-label="فيسبوك"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all duration-300">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=966549555157" target="_blank" aria-label="واتساب"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all duration-300">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+    <a href="tel:+966549555157" aria-label="اتصل بنا"
+       class="w-11 h-11 flex items-center justify-center rounded-full border border-outline-variant text-primary hover:bg-primary hover:text-white transition-all duration-300">
+      <span class="material-symbols-outlined text-[20px]">call</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== MAIN NAVIGATION TABS ===== -->
+<div class="max-w-[1200px] mx-auto px-4 mt-10">
+  <div class="flex justify-center gap-3 flex-wrap">
+    <button id="tab-btn-menu" class="main-tab-btn active" onclick="switchTab('menu')">
+      🍽️ <span class="lang-en">Menu</span><span class="lang-ar">المنيو</span>
+    </button>
+    <button id="tab-btn-tips" class="main-tab-btn" onclick="switchTab('tips')">
+      💚 <span class="lang-en">Health Tips</span><span class="lang-ar">إرشادات صحية</span>
+    </button>
+    <button id="tab-btn-about" class="main-tab-btn" onclick="switchTab('about')">
+      🏪 <span class="lang-en">About Us</span><span class="lang-ar">من نحن</span>
+    </button>
+  </div>
+</div>
+
+<!-- ===================================== -->
+<!-- ===== TAB: MENU ===== -->
+<!-- ===================================== -->
+<main id="tab-menu" class="max-w-[1200px] mx-auto px-4 md:px-6 pt-8 pb-10">
+  <!-- Section Header -->
+  <div class="flex items-center gap-4 mb-6">
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+    <h3 class="text-sm font-bold text-on-surface-variant tracking-widest uppercase">
+      <span class="lang-en">Our Menu</span>
+      <span class="lang-ar">قائمتنا</span>
+    </h3>
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+  </div>
+
+  <!-- Category Filter Row -->
+  <div class="sticky top-[64px] z-40 bg-surface/95 backdrop-blur-sm py-3 border-b border-outline-variant/15 -mx-4 px-4 md:-mx-6 md:px-6 no-scrollbar flex gap-2 overflow-x-auto mb-8" id="cat-filter-row">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- Items List -->
+  <div id="menu-items-list" class="flex flex-col gap-4">
+    <!-- Rendered by JS -->
+  </div>
+</main>
+
+<!-- ===================================== -->
+<!-- ===== TAB: HEALTH TIPS ===== -->
+<!-- ===================================== -->
+<section id="tab-tips" class="max-w-[1200px] mx-auto px-4 md:px-6 pt-8 pb-10" style="display:none">
+  <div class="flex items-center gap-4 mb-8">
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+    <h3 class="text-sm font-bold text-on-surface-variant tracking-widest uppercase">
+      <span class="lang-en">Health Tips</span>
+      <span class="lang-ar">إرشادات صحية</span>
+    </h3>
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">🌾</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Fiber</span><span class="lang-ar">الألياف</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">Aim for 25–30g of fiber daily to support digestion and heart health.</span>
+        <span class="lang-ar">تناول 25–30 جرام من الألياف يومياً لدعم الهضم وصحة القلب.</span>
+      </p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">💧</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Hydration</span><span class="lang-ar">الماء</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">Drink 8 cups of water daily to stay hydrated and energized.</span>
+        <span class="lang-ar">اشرب 8 أكواب ماء يومياً للحفاظ على الترطيب والنشاط.</span>
+      </p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">🥗</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Vegetables</span><span class="lang-ar">الخضروات</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">Half your plate should be vegetables for balanced nutrition.</span>
+        <span class="lang-ar">نصف طبقك خضروات لتغذية متوازنة وصحة أفضل.</span>
+      </p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">⚠️</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Allergens</span><span class="lang-ar">الحساسية</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">Inform us about any food allergies before ordering so we can assist you safely.</span>
+        <span class="lang-ar">أبلغنا عن أي حساسية غذائية قبل الطلب حتى نتمكن من مساعدتك بأمان.</span>
+      </p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">🔥</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Calories</span><span class="lang-ar">السعرات</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">Adults need around 2000 kcal daily — balance your meals accordingly.</span>
+        <span class="lang-ar">المعدل اليومي للبالغين حوالي 2000 سعرة — وازن وجباتك بحسب ذلك.</span>
+      </p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="text-3xl mb-3">🏃</div>
+      <h4 class="font-bold text-on-background text-base mb-1">
+        <span class="lang-en">Activity</span><span class="lang-ar">النشاط</span>
+      </h4>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        <span class="lang-en">30 minutes of daily activity goes a long way for your overall wellbeing.</span>
+        <span class="lang-ar">30 دقيقة من النشاط اليومي تُحدث فرقاً كبيراً في صحتك العامة.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================== -->
+<!-- ===== TAB: ABOUT US ===== -->
+<!-- ===================================== -->
+<section id="tab-about" class="max-w-[1200px] mx-auto px-4 md:px-6 pt-8 pb-10" style="display:none">
+  <div class="flex items-center gap-4 mb-8">
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+    <h3 class="text-sm font-bold text-on-surface-variant tracking-widest uppercase">
+      <span class="lang-en">About Us</span>
+      <span class="lang-ar">من نحن</span>
+    </h3>
+    <div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+  </div>
+
+  <!-- Description -->
+  <div class="bg-white rounded-2xl border border-[#eae8e5] p-6 mb-8 reveal">
+    <p class="text-on-surface-variant leading-relaxed mb-2">
+      <span class="lang-en">WELL HEALTH is a premium healthy dining destination dedicated to crafting nutritious, delicious meals using the freshest local ingredients. We believe great food and great health go hand in hand — every dish on our menu is thoughtfully prepared with balanced macros and wholesome flavors.</span>
+      <span class="lang-ar">ويل هيلث وجهة طعام صحية فاخرة مكرّسة لتقديم وجبات مغذية ولذيذة باستخدام أجود المكونات المحلية الطازجة. نؤمن أن الطعام الشهي والصحة الجيدة يسيران جنباً إلى جنب — كل طبق في قائمتنا مُعدّ بعناية بمكونات متوازنة ونكهات أصيلة.</span>
+    </p>
+    <p class="text-on-surface-variant leading-relaxed">
+      <span class="lang-en">Our mission is simple: help you eat well, live well, and feel your best every single day.</span>
+      <span class="lang-ar">مهمتنا بسيطة: مساعدتك على الأكل الصحي، والعيش الجيد، والشعور بأفضل حال كل يوم.</span>
+    </p>
+  </div>
+
+  <!-- Rate Us Button -->
+  <div class="flex justify-center mb-8 reveal">
+    <button onclick="openRatingModal()"
+      class="bg-primary text-white font-bold px-8 py-3 rounded-full text-base hover:opacity-90 active:scale-95 transition-all flex items-center gap-2 shadow-md">
+      ⭐ <span class="lang-en">Rate Us</span><span class="lang-ar">قيّمنا</span>
+    </button>
+  </div>
+
+  <!-- Social Contact Cards -->
+  <h4 class="font-bold text-on-background text-base mb-4">
+    <span class="lang-en">Contact & Follow Us</span>
+    <span class="lang-ar">تواصل وتابعنا</span>
+  </h4>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <a href="https://www.instagram.com/well.health_sa?igsh=MjBjMmU3NnpmNDFl" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #E1306C">
+      <span class="text-2xl">📸</span>
+      <div><p class="font-bold text-sm text-on-background">Instagram</p>
+        <p class="text-xs text-on-surface-variant">@well.health_sa</p></div>
+    </a>
+    <a href="https://www.tiktok.com/@well_health_sa?_r=1&_t=ZS-96qJl7ta3Dk" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #000">
+      <span class="text-2xl">🎵</span>
+      <div><p class="font-bold text-sm text-on-background">TikTok</p>
+        <p class="text-xs text-on-surface-variant">@well_health_sa</p></div>
+    </a>
+    <a href="https://www.snapchat.com/add/wellhealth.ksa?share_id=dYsubJC-m0w&locale=ar-SA-u-nu-arab" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #FFFC00">
+      <span class="text-2xl">👻</span>
+      <div><p class="font-bold text-sm text-on-background">Snapchat</p>
+        <p class="text-xs text-on-surface-variant">wellhealth.ksa</p></div>
+    </a>
+    <a href="https://www.facebook.com/share/1GHaPj3Cqr/" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #1877F2">
+      <span class="text-2xl">👍</span>
+      <div><p class="font-bold text-sm text-on-background">Facebook</p>
+        <p class="text-xs text-on-surface-variant">WELL HEALTH</p></div>
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=966549555157" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #25D366">
+      <span class="text-2xl">💬</span>
+      <div><p class="font-bold text-sm text-on-background">WhatsApp</p>
+        <p class="text-xs text-on-surface-variant">0549555157</p></div>
+    </a>
+    <a href="https://www.google.com/search?q=well+health" target="_blank"
+       class="social-contact-card reveal" style="border-left:4px solid #4285F4">
+      <span class="text-2xl">🗺️</span>
+      <div><p class="font-bold text-sm text-on-background">Google Maps</p>
+        <p class="text-xs text-on-surface-variant">
+          <span class="lang-en">Find us on Google</span><span class="lang-ar">ابحث عنا على جوجل</span>
+        </p></div>
+    </a>
+    <a href="mailto:info@wellhealth.com"
+       class="social-contact-card reveal" style="border-left:4px solid #EA4335">
+      <span class="text-2xl">📧</span>
+      <div><p class="font-bold text-sm text-on-background">Email</p>
+        <p class="text-xs text-on-surface-variant">info@wellhealth.com</p></div>
+    </a>
+    <a href="tel:+966549555157"
+       class="social-contact-card reveal" style="border-left:4px solid #4CAF50">
+      <span class="text-2xl">📞</span>
+      <div><p class="font-bold text-sm text-on-background">
+        <span class="lang-en">Phone</span><span class="lang-ar">الهاتف</span></p>
+        <p class="text-xs text-on-surface-variant">0549555157</p></div>
+    </a>
+  </div>
+</section>
+
+
+
+<!-- ===== RATING MODAL ===== -->
+<div id="rating-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 mx-4 max-w-sm w-full text-center">
+    <h3 id="modal-title" class="font-bold text-xl text-on-background mb-2">
+      <span class="lang-en">How was your experience?</span>
+      <span class="lang-ar">كيف كانت تجربتك؟</span>
+    </h3>
+    <p class="text-sm text-on-surface-variant mb-6">
+      <span class="lang-en">Tap a star to rate us</span>
+      <span class="lang-ar">اضغط على نجمة لتقييمنا</span>
+    </p>
+    <div id="star-row" class="flex justify-center gap-1 mb-6">
+      <button class="star-btn" data-star="1" onclick="selectStar(1)" onmouseenter="hoverStar(1)" onmouseleave="resetStarHover()">★</button>
+      <button class="star-btn" data-star="2" onclick="selectStar(2)" onmouseenter="hoverStar(2)" onmouseleave="resetStarHover()">★</button>
+      <button class="star-btn" data-star="3" onclick="selectStar(3)" onmouseenter="hoverStar(3)" onmouseleave="resetStarHover()">★</button>
+      <button class="star-btn" data-star="4" onclick="selectStar(4)" onmouseenter="hoverStar(4)" onmouseleave="resetStarHover()">★</button>
+      <button class="star-btn" data-star="5" onclick="selectStar(5)" onmouseenter="hoverStar(5)" onmouseleave="resetStarHover()">★</button>
+    </div>
+    <div id="modal-feedback" class="text-sm text-primary font-bold min-h-[20px] mb-4"></div>
+    <button onclick="closeRatingModal()" class="text-on-surface-variant hover:text-primary text-sm underline">
+      <span class="lang-en">Close</span><span class="lang-ar">إغلاق</span>
+    </button>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="w-full py-10 px-6 bg-[#1b1c1a] text-white">
+  <div class="max-w-[1200px] mx-auto flex flex-col items-center gap-6">
+    <!-- Social Icons Row -->
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="https://www.instagram.com/well.health_sa?igsh=MjBjMmU3NnpmNDFl" target="_blank" aria-label="إنستغرام"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@well_health_sa?_r=1&_t=ZS-96qJl7ta3Dk" target="_blank" aria-label="تيك توك"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9a8.27 8.27 0 004.84 1.55V7.12a4.85 4.85 0 01-1.07-.43z"/></svg>
+      </a>
+      <a href="https://www.snapchat.com/add/wellhealth.ksa?share_id=dYsubJC-m0w&locale=ar-SA-u-nu-arab" target="_blank" aria-label="سناب شات"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.333 4.225l-.005.044c-.036.64.17 1.084.685 1.406.485.297 1.009.435 1.447.573.126.04.243.077.342.115.851.302 1.314.7 1.23 1.28a.482.482 0 01-.439.401c-.65.084-1.079.31-1.45.685-.135.138-.264.303-.404.484-.413.533-.927 1.198-2.048 1.198-.28 0-.569-.055-.862-.11-.383-.075-.776-.151-1.19-.015-.47.152-.93.512-1.41.887-.71.554-1.512 1.183-2.705 1.183h-.048c-1.193 0-1.994-.629-2.706-1.183-.479-.375-.94-.735-1.41-.887-.413-.136-.806-.06-1.19.015-.292.055-.582.11-.862.11-1.12 0-1.634-.665-2.047-1.198-.14-.181-.269-.346-.404-.484-.37-.375-.8-.601-1.45-.685a.482.482 0 01-.44-.4c-.083-.58.38-.978 1.23-1.28.1-.04.217-.076.342-.115.439-.138.962-.276 1.447-.573.515-.322.721-.767.685-1.406l-.005-.044c-.07-1.006-.196-3.032.333-4.225C7.859 1.069 11.216.793 12.206.793z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/share/1GHaPj3Cqr/" target="_blank" aria-label="فيسبوك"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=966549555157" target="_blank" aria-label="واتساب"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </a>
+
+      <a href="https://share.google/9B6OvSslfscD6SJKo" target="_blank" aria-label="الموقع"
+         class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:text-[#F4C430] hover:scale-110 transition-all duration-200">
+        <span class="material-symbols-outlined text-[22px]">language</span>
+      </a>
+    </div>
+    <!-- Bottom row -->
+    <div class="flex flex-col md:flex-row justify-between items-center w-full gap-3 pt-4 border-t border-white/10">
+      <div class="flex flex-col items-center md:items-start gap-1">
+        <span class="font-bold text-[#4CAF50] text-lg">WELL HEALTH</span>
+        <p class="text-white/50 text-xs">
+          <span class="lang-en">© 2024 WELL HEALTH. All rights reserved.</span>
+          <span class="lang-ar">© ٢٠٢٤ ويل هيلث. جميع الحقوق محفوظة.</span>
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-4 items-center justify-center">
+        <a href="tel:+966549555157" class="text-white/60 hover:text-[#4CAF50] text-xs transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">call</span> 0549555157
+        </a>
+        <a href="mailto:info@wellhealth.com" class="text-white/60 hover:text-[#4CAF50] text-xs transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">mail</span> info@wellhealth.com
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=966549555157" target="_blank" class="text-white/60 hover:text-[#4CAF50] text-xs transition-colors">WhatsApp</a>
+        <button onclick="openRatingModal()" class="text-[#F4C430] hover:text-white text-xs font-bold transition-colors flex items-center gap-1">
+           <span class="lang-en">⭐ Rate Us</span>
+           <span class="lang-ar">⭐ قيّمنا</span>
+         </button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== DATA =====
+const CATS = {
+  all:        {ar:'الكل',         en:'All',        emoji:'🍽️'},
+  grill:      {ar:'المشويات',     en:'Grills',     emoji:'🔥'},
+  sandwiches: {ar:'الساندوتشات',  en:'Sandwiches', emoji:'🥪'},
+  appetizers: {ar:'المقبلات',     en:'Appetizers', emoji:'🥗'},
+  drinks:     {ar:'المشروبات',    en:'Drinks',     emoji:'🥤'},
+  desserts:   {ar:'الحلويات',     en:'Desserts',   emoji:'🍰'}
+};
+
+const DEFAULT_MENU_ITEMS = [
+  {id:1,category:'desserts',nameAr:'كنافة نابلسية',nameEn:'Kunafa Nabulsia',
+   descAr:'كنافة ناعمة بالجبن الطازج مع شيرة الزهر',descEn:'Soft Kunafa with fresh cheese and orange blossom syrup',
+   price:'28',cal:'420',protein:'8',carbs:'65',fat:'14',tagsAr:['مميز','الأكثر مبيعاً'],tagsEn:['Featured','Best Seller'],img:'assets/images/kunafa.png',visible:true},
+  {id:2,category:'desserts',nameAr:'بقلاوة',nameEn:'Baklava',
+   descAr:'بقلاوة محشوة بالمكسرات مع شيرة العسل',descEn:'Baklava stuffed with nuts and honey syrup',
+   price:'24',cal:'320',protein:'5',carbs:'42',fat:'16',tagsAr:['تقليدي'],tagsEn:['Traditional'],img:'assets/images/baklava.png',visible:true},
+  {id:3,category:'desserts',nameAr:'أم علي',nameEn:'Um Ali',
+   descAr:'حلى أم علي التقليدي بالقشطة والمكسرات',descEn:'Traditional Um Ali with cream and mixed nuts',
+   price:'18',cal:'350',protein:'6',carbs:'48',fat:'18',tagsAr:['تقليدي'],tagsEn:['Traditional'],img:'assets/images/um_ali.png',visible:true},
+  {id:4,category:'drinks',nameAr:'عصير برتقال طازج',nameEn:'Fresh Orange Juice',
+   descAr:'عصير برتقال معصور على البارد بدون سكر',descEn:'Cold-pressed orange juice, no added sugar',
+   price:'12',cal:'110',protein:'2',carbs:'26',fat:'0',tagsAr:['طازج'],tagsEn:['Fresh'],img:'assets/images/orange_juice.png',visible:true},
+  {id:5,category:'drinks',nameAr:'شاي عربي',nameEn:'Arabic Tea',
+   descAr:'شاي عربي بالهيل والزعفران مع تمور',descEn:'Arabic tea with cardamom and saffron',
+   price:'12',cal:'25',protein:'0',carbs:'6',fat:'0',tagsAr:['تقليدي'],tagsEn:['Traditional'],img:'assets/images/arabic_tea.png',visible:true},
+  {id:6,category:'drinks',nameAr:'عصير ديتوكس',nameEn:'Detox Juice',
+   descAr:'مزيج منعش من الخضار والفواكه الطازجة',descEn:'Refreshing blend of fresh vegetables and fruits',
+   price:'15',cal:'80',protein:'2',carbs:'18',fat:'0',tagsAr:['صحي'],tagsEn:['Healthy'],img:'assets/images/detox_juice.png',visible:true},
+  {id:7,category:'grill',nameAr:'شيش طاووق',nameEn:'Shish Tawook',
+   descAr:'دجاج مشوي على الفحم متبل بالزبادي',descEn:'Charcoal-grilled chicken marinated in yogurt',
+   price:'45',cal:'320',protein:'38',carbs:'8',fat:'12',tagsAr:['مميز','صحي'],tagsEn:['Featured','Healthy'],img:'assets/images/chicken.png',visible:true},
+  {id:8,category:'grill',nameAr:'ريش لحم مشوية',nameEn:'Grilled Lamb Chops',
+   descAr:'ريش غنم طازجة مشوية مع صوص الثوم',descEn:'Fresh charcoal-grilled lamb chops with garlic sauce',
+   price:'75',cal:'490',protein:'42',carbs:'4',fat:'32',tagsAr:['فاخر'],tagsEn:['Premium'],img:'assets/images/steak.png',visible:true},
+  {id:9,category:'sandwiches',nameAr:'كلوب ساندوتش صحي',nameEn:'Healthy Club Sandwich',
+   descAr:'دجاج مشوي مع بيض وجبنة لايت وخس',descEn:'Grilled chicken, egg, light cheese and lettuce',
+   price:'24',cal:'310',protein:'28',carbs:'32',fat:'10',tagsAr:['صحي'],tagsEn:['Healthy'],img:'assets/images/chicken.png',visible:true},
+  {id:10,category:'appetizers',nameAr:'ورق عنب',nameEn:'Stuffed Grape Leaves',
+   descAr:'ورق عنب محشي بالأرز والبهارات',descEn:'Grape leaves stuffed with seasoned rice',
+   price:'18',cal:'180',protein:'4',carbs:'28',fat:'7',tagsAr:['شائع'],tagsEn:['Popular'],img:'assets/images/pasta.png',visible:true},
+  {id:11,category:'appetizers',nameAr:'متبل',nameEn:'Mutabbal',
+   descAr:'باذنجان مشوي مع طحينة وزيت زيتون',descEn:'Roasted eggplant dip with tahini and olive oil',
+   price:'15',cal:'150',protein:'3',carbs:'16',fat:'9',tagsAr:['طازج'],tagsEn:['Fresh'],img:'assets/images/pasta.png',visible:true},
+  {id:12,category:'grill',nameAr:'باستا كريمة',nameEn:'Creamy Pasta',
+   descAr:'باستا بنتشيري بصوص الكريمة والريحان',descEn:'Penne pasta in creamy basil sauce',
+   price:'35',cal:'520',protein:'18',carbs:'62',fat:'22',tagsAr:['مميز'],tagsEn:['Featured'],img:'assets/images/pasta.png',visible:true}
+];
+
+let currentLang = localStorage.getItem('lang') || 'en';
+let activeCategory = 'all';
+let activeTab = 'menu';
+let selectedStarVal = 0;
+
+// ===== LANGUAGE =====
+function applyLanguage(lang) {
+  const body = document.body;
+  const html = document.documentElement;
+  const langText = document.getElementById('lang-text');
+  if (lang === 'ar') {
+    body.setAttribute('dir','rtl'); html.setAttribute('lang','ar');
+    if (langText) langText.innerText = 'EN';
+    currentLang = 'ar';
+  } else {
+    body.setAttribute('dir','ltr'); html.setAttribute('lang','en');
+    if (langText) langText.innerText = 'AR';
+    currentLang = 'en';
+  }
+  localStorage.setItem('lang', lang);
+  renderCatFilter();
+  renderMenuItems();
+}
+
+function toggleLanguage() {
+  applyLanguage(currentLang === 'en' ? 'ar' : 'en');
+}
+
+// ===== TAB SWITCHING =====
+function switchTab(tab) {
+  activeTab = tab;
+  const tabs = ['menu','tips','about'];
+  tabs.forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    const btn = document.getElementById('tab-btn-' + t);
+    if (el) el.style.display = t === tab ? '' : 'none';
+    if (btn) {
+      if (t === tab) { btn.classList.add('active'); }
+      else { btn.classList.remove('active'); }
+    }
+  });
+  if (tab === 'tips' || tab === 'about') {
+    initReveal();
+  }
+}
+
+// ===== INIT DATABASE =====
+function initDatabase() {
+  if (localStorage.getItem('wh_items') === null) {
+    localStorage.setItem('wh_items', JSON.stringify(DEFAULT_MENU_ITEMS));
+  }
+}
+
+// ===== NORMALIZE CATEGORY =====
+function normalizeCategory(cat) {
+  if (cat === 'chicken' || cat === 'meat') return 'grill';
+  if (cat === 'carbs') return 'appetizers';
+  return cat;
+}
+
+// ===== CATEGORY FILTER =====
+function renderCatFilter() {
+  const row = document.getElementById('cat-filter-row');
+  if (!row) return;
+  const keys = ['all','grill','sandwiches','appetizers','drinks','desserts'];
+  row.innerHTML = keys.map(k => {
+    const cat = CATS[k];
+    const name = currentLang === 'ar' ? cat.ar : cat.en;
+    const isActive = activeCategory === k;
+    return `<button class="cat-filter-btn${isActive ? ' active' : ''}" onclick="selectCategory('${k}')">
+      ${cat.emoji} ${name}
+    </button>`;
+  }).join('');
+}
+
+function selectCategory(cat) {
+  activeCategory = cat;
+  renderCatFilter();
+  renderMenuItems();
+}
+
+// ===== MENU ITEMS LIST =====
+function renderMenuItems() {
+  const list = document.getElementById('menu-items-list');
+  if (!list) return;
+  const allItems = JSON.parse(localStorage.getItem('wh_items') || '[]');
+  const filtered = allItems.filter(item => {
+    if (item.visible === false) return false;
+    if (activeCategory === 'all') return true;
+    return normalizeCategory(item.category) === activeCategory;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="text-center py-16 text-on-surface-variant">
+        <div class="text-5xl mb-4">🍽️</div>
+        <p class="font-bold text-lg">${currentLang==='ar'?'لا توجد أصناف حالياً في هذا القسم':'No items available in this category'}</p>
+        <p class="text-sm mt-1">${currentLang==='ar'?'حاول اختيار قسم آخر':'Try selecting a different category'}</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(item => {
+    const name = currentLang==='ar' ? (item.nameAr||item.nameEn) : (item.nameEn||item.nameAr);
+    const desc = currentLang==='ar' ? (item.descAr||item.descEn) : (item.descEn||item.descAr);
+    // Support new portions[] or old priceMd/price
+    const price = item.portions && item.portions.length > 0
+      ? item.portions[0].price
+      : (item.priceMd || item.price);
+    const currency = currentLang==='ar' ? 'ر.س' : 'SAR';
+
+    const macros = [
+      {icon:'🔥', label: item.cal||'—', color:'#FFF3E0', text:'#E65100'},
+      {icon:'💪', label: (item.protein||'—')+'g', color:'#E8F5E9', text:'#2E7D32'},
+      {icon:'🌾', label: (item.carbs||'—')+'g', color:'#F9FBE7', text:'#558B2F'},
+      {icon:'💧', label: (item.fat||'—')+'g', color:'#E3F2FD', text:'#1565C0'}
+    ];
+    const macrosHtml = macros.map(m =>
+      `<span class="macro-pill" style="background:${m.color};color:${m.text}">${m.icon} ${m.label}</span>`
+    ).join('');
+
+    const imgHtml = item.img
+      ? `<img src="${item.img}" alt="${name}" class="w-full h-full object-cover" loading="lazy"/>`
+      : `<div class="w-full h-full flex items-center justify-center text-2xl bg-surface-container">🍽️</div>`;
+
+    return `
+    <div class="item-row p-4 flex gap-4 reveal" onclick="openItem(${item.id})">
+      <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+        ${imgHtml}
+      </div>
+      <div class="flex-1 min-w-0">
+        <h4 class="font-bold text-on-background text-base leading-tight mb-0.5 truncate">${name}</h4>
+        <p class="text-xs text-on-surface-variant truncate mb-2">${desc||''}</p>
+        <div class="flex flex-wrap gap-1 mb-2">${macrosHtml}</div>
+        <p class="text-primary font-bold text-base">
+          ${currentLang==='ar' ? `${price} ${currency}` : `${currency} ${price}`}
+        </p>
+      </div>
+      <div class="flex-shrink-0 flex items-center self-center">
+        <span class="material-symbols-outlined text-outline-variant text-[18px]">${currentLang==='ar'?'chevron_left':'chevron_right'}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  initReveal();
+}
+
+function openItem(id) {
+  localStorage.setItem('wh_current_item', String(id));
+  window.location.href = 'item.html';
+}
+
+// ===== SCROLL REVEAL =====
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.05});
+
+function initReveal() {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    revealObserver.observe(el);
+  });
+}
+
+// ===== RATING MODAL =====
+function openRatingModal() {
+  const modal = document.getElementById('rating-modal');
+  modal.classList.add('open');
+  selectedStarVal = 0;
+  document.getElementById('modal-feedback').textContent = '';
+  resetStarHover();
+}
+
+function closeRatingModal() {
+  document.getElementById('rating-modal').classList.remove('open');
+}
+
+document.getElementById('rating-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeRatingModal();
+});
+
+function hoverStar(n) {
+  document.querySelectorAll('.star-btn').forEach((btn, i) => {
+    btn.classList.toggle('lit', i < n);
+  });
+}
+
+function resetStarHover() {
+  document.querySelectorAll('.star-btn').forEach((btn, i) => {
+    btn.classList.toggle('lit', i < selectedStarVal);
+  });
+}
+
+function selectStar(n) {
+  selectedStarVal = n;
+  hoverStar(n);
+  const feedback = document.getElementById('modal-feedback');
+
+  // Save all ratings internally in wh_ratings list (internal database/sheet)
+  const ratings = JSON.parse(localStorage.getItem('wh_ratings') || '[]');
+  ratings.push({stars: n, timestamp: new Date().toISOString()});
+  localStorage.setItem('wh_ratings', JSON.stringify(ratings));
+
+  if (n <= 3) {
+    feedback.textContent = currentLang === 'ar'
+      ? 'شكراً! سنتواصل معك قريباً 🙏'
+      : "Thank you! We'll follow up soon 🙏";
+    setTimeout(() => closeRatingModal(), 2500);
+  } else {
+    feedback.textContent = currentLang === 'ar'
+      ? 'شكراً لك! جاري توجيهك لتقييمنا على جوجل...'
+      : 'Thank you! Redirecting you to Google reviews...';
+    setTimeout(() => {
+      window.open('https://www.google.com/search?q=well+health', '_blank');
+      closeRatingModal();
+    }, 1500);
+  }
+}
+
+// ===== INIT =====
+initDatabase();
+applyLanguage(currentLang);
+initReveal();
+</script>
+</body>
+</html>
